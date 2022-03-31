@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 import TelaLogin from "./components/TelaLogin";
 import TelaCadastro from "./components/TelaCadastro";
+import TelaHabitos from "./components/TelaHabitos";
 import NameContext from "./contexts/NameContext";
 import UserImage from "./contexts/UserImageContext";
 import TokenContext from "./contexts/TokenContext";
@@ -21,6 +22,7 @@ export default function App() {
                         <Routes>
                             <Route path="/" element={<TelaLogin />}></Route>
                             <Route path="/cadastro" element={<TelaCadastro />}></Route>
+                            <Route path="/habitos" element={<TelaHabitos />}></Route>
                         </Routes>
                     </BrowserRouter>
 

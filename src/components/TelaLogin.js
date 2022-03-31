@@ -3,6 +3,7 @@ import axios from "axios";
 import TrackItLogo from "./../assets/images/trackit-logo.svg";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TokenContext from "./../contexts/TokenContext";
 import UserImageContext from "./../contexts/UserImageContext";
 import NameContext from "./../contexts/NameContext";
@@ -30,7 +31,20 @@ export default function TelaLogin() {
             setName(data.name);
             setUserImage(data.image);
         });
-        promise.catch(err => console.log(err.status));
+        promise.catch(err => {
+            console.log(err.status)
+            setEmail("");
+            setSenha("");
+            alert("Usuário ou senha inválidos.");
+        });
+
+        mudarPagina();
+    }
+
+    let navigate = useNavigate();
+
+    function mudarPagina(){
+        navigate("/habitos");
     }
 
     return (
