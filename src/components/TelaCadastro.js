@@ -1,34 +1,28 @@
 import styled from "styled-components";
 import axios from "axios";
 import TrackItLogo from "./../assets/images/trackit-logo.svg";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import TokenContext from "./../contexts/TokenContext";
-import UserImageContext from "./../contexts/UserImageContext";
-import NameContext from "./../contexts/NameContext";
 
-export default function TelaLogin() {
-
-    const { setToken } = useContext(TokenContext);
-    const { setUserImage } = useContext(UserImageContext);
-    const { setName } = useContext(NameContext);
-
+export default function TelaCadastro() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [nome, setNome] = useState("");
+    const [foto, setFoto] = useState("");
 
-    function fazerLogin(event) {
+    function fazerCadastro(event) {
         event.preventDefault();
 
-        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", {
-            email: email,
-            password: senha
-        });
+        const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",
+            {
+                email: email,
+                name: nome,
+                image: foto,
+                password: senha
+            });
         promise.then((response) => {
             const { data } = response;
             console.log(data);
-            setToken(data.token);
-            setName(data.name);
-            setUserImage(data.image);
         });
         promise.catch(err => console.log(err.status));
     }
@@ -36,13 +30,17 @@ export default function TelaLogin() {
     return (
         <Div>
             <img src={TrackItLogo} alt="Logo do TrackIt" />
-            <form onSubmit={fazerLogin}>
+            <form onSubmit={fazerCadastro}>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" required />
                 <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="senha" required />
-                <button type="submit">Entrar</button>
+                <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="nome" required />
+                <input type="url" value={foto} onChange={e => setFoto(e.target.value)} placeholder="foto (url)" required />
+                <Link to="/">
+                    <button type="submit">Cadastrar</button>
+                </Link>
             </form>
-            <Link to="/cadastro">
-                <p>Não tem uma conta? Cadastre-se!</p>
+            <Link to="/">
+                <p>Já tem uma conta? Faça login!</p>
             </Link>
         </Div>
     );
