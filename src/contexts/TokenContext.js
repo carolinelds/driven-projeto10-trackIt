@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-const UserImageContext = createContext();
+const TokenContext = createContext();
 
-export default UserImageContext;
+export default TokenContext;
