@@ -23,7 +23,6 @@ export default function Topo() {
 const Div = styled.div`
     
     background-color: #126BA5;
-    width: 100%;
     height: 70px;
     padding-left: 18px;
     display: flex;

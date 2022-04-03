@@ -4,7 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import TokenContext from "./../contexts/TokenContext";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
-
+import Habito from "./Habito";
 
 export default function TelaHabitos() {
 
@@ -19,8 +19,7 @@ export default function TelaHabitos() {
         }
     }
     
-    useEffect(() => {
-        
+    function requisicaoAxios(){
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
 
         promise.then(response => {
@@ -30,11 +29,18 @@ export default function TelaHabitos() {
         });
 
         promise.catch(err => console.log(err.response.status));
+    }
+
+    useEffect(() => {
+        requisicaoAxios();        
     }, []);
 
     function renderizarCriarHabito() {
         return criarHabito ? (
-            <CriarHabito setCriarHabito={setCriarHabito}/>
+            <CriarHabito 
+                setCriarHabito={setCriarHabito}
+                requisicaoAxios={requisicaoAxios}
+            />
         ) : null
     }
 
@@ -52,7 +58,8 @@ export default function TelaHabitos() {
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
             </Div>
         </>
-    ) : (
+    ) : ( 
+        habitos !== null ? 
         <>
             <Topo />
             <Div>
@@ -63,9 +70,14 @@ export default function TelaHabitos() {
                 {
                     renderizarCriarHabito()
                 }
-                <p>Renderiza hábitos</p>
+                {
+                    habitos.map(habito => {
+                        const {id, name, days} = habito;
+                        return <Habito key={id} name={name} days={days} />
+                    })
+                }
             </Div>
-        </>
+        </> : null
     )
 }
 

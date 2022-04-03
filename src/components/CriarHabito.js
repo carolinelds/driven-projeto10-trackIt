@@ -5,7 +5,7 @@ import TokenContext from "./../contexts/TokenContext";
 
 export default function CriarHabito(props) {
 
-    let { setCriarHabito } = props;
+    let { setCriarHabito, requisicaoAxios } = props;
 
     const [nomeHabito, setNomeHabito] = useState("");
     const [dias, setDias] = useState([]);
@@ -42,6 +42,8 @@ export default function CriarHabito(props) {
         promise.then(response => {
             const {data} = response;
             console.log(data);
+            setCriarHabito(false);
+            requisicaoAxios();
         });
         promise.catch(err => console.log(err.response.status));
     }
