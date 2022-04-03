@@ -38,7 +38,7 @@ const Div = styled.div`
     .user-infos-container {
         display: flex;
         align-items: center;
-        margin-right: 36px;
+        margin-right: 18px;
     }
 
     .user-infos-container p {

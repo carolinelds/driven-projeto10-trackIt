@@ -1,11 +1,28 @@
 import styled from "styled-components";
+import DeleteButton from "./../assets/images/delete-button.svg";
+import { useContext } from "react";
+import axios from "axios";
+import TokenContext from "../contexts/TokenContext";
 
-export default function Habito(props){
+export default function Habito(props) {
 
-    const {name, days} = props;
+    const { id, name, days, requisicaoAxios } = props;
 
-    function definirSelecionado(num){
-        return days.includes(num) ? "selecionado" : "nao-selecionado"; 
+    function definirSelecionado(num) {
+        return days.includes(num) ? "selecionado" : "nao-selecionado";
+    }
+
+    const { token } = useContext(TokenContext);
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    function apagarHabito(id) {
+        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
+        promise.then(() => requisicaoAxios());
+        promise.catch(err => console.log(err.response.status));
     }
 
     return (
@@ -20,6 +37,9 @@ export default function Habito(props){
                 <p className={definirSelecionado(5)}>S</p>
                 <p className={definirSelecionado(6)}>S</p>
             </div>
+            <button onClick={() => apagarHabito(id)} className="botao-apagar">
+                <img src={DeleteButton} alt="Botão: aperte para apagar esse hábito" />
+            </button>
         </Div>
     );
 }
@@ -29,6 +49,7 @@ const Div = styled.div`
     border-radius: 5px;
     padding: 15px;
     margin-bottom: 10px;
+    position: relative;
 
     Div > p {
         font-weight: 400;
@@ -60,5 +81,22 @@ const Div = styled.div`
         color: white;
     }
 
+    .botao-apagar {
+        height: 20px;
+        width: 17.333px;
+        border-style: none;
+        background-color: inherit;
+        position: absolute;
+        top: 11px;
+        right: 17px;
+    }
 
+    .botao-apagar img {
+        height: 20px;
+        width: auto;
+    }
+
+    .botao-apagar:hover {
+        opacity: 0.5;
+    }
 `;

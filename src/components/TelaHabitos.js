@@ -44,6 +44,7 @@ export default function TelaHabitos() {
         ) : null
     }
 
+
     return habitos !== null && habitos.length < 1 ? (
         <>
             <Topo />
@@ -73,7 +74,7 @@ export default function TelaHabitos() {
                 {
                     habitos.map(habito => {
                         const {id, name, days} = habito;
-                        return <Habito key={id} name={name} days={days} />
+                        return <Habito key={id} id={id} name={name} days={days} requisicaoAxios={requisicaoAxios}/>
                     })
                 }
             </Div>
@@ -85,9 +86,9 @@ const Div = styled.div`
 
     background-color: #F2F2F2;
     font-family: 'Lexend Deca';
-    padding: 22px 18px 0px 18px;
+    padding: 22px 18px 50px 18px;
     height: 100vh;
-    
+
     header {
         display: flex;
         justify-content: space-between;
