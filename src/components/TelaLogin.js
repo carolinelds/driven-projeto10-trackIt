@@ -30,6 +30,7 @@ export default function TelaLogin() {
             setToken(data.token);
             setName(data.name);
             setUserImage(data.image);
+            mudarPagina();
         });
         promise.catch(err => {
             console.log(err.status)
@@ -37,8 +38,6 @@ export default function TelaLogin() {
             setSenha("");
             alert("Usuário ou senha inválidos.");
         });
-
-        mudarPagina();
     }
 
     let navigate = useNavigate();
