@@ -6,6 +6,7 @@ import 'react-circular-progressbar/dist/styles.css';
 import TokenContext from "./../contexts/TokenContext";
 import axios from "axios";
 import TodayHabitsContext from "./../contexts/TodayHabitsContext";
+import ProgressContext from "../contexts/ProgressContext";
 
 export default function Menu(props) {
 
@@ -13,8 +14,7 @@ export default function Menu(props) {
 
     const { setTodayHabits } = useContext(TodayHabitsContext);
     const { token } = useContext(TokenContext);
-
-    const [progresso, setProgresso] = useState(0);
+    const { progress, setProgress } = useContext(ProgressContext);
 
     const config = {
         headers: {
@@ -28,7 +28,7 @@ export default function Menu(props) {
             const { data } = response;
             setTodayHabits(data);
             const novoProgresso = calcularProgresso(data);
-            setProgresso(novoProgresso);
+            setProgress(novoProgresso);
         });
         promise.catch(err => console.log(err.response.status));
     }
@@ -39,7 +39,7 @@ export default function Menu(props) {
 
 
     function calcularProgresso(dados) {
-        if (dados !== null) {
+        if (dados !== null && dados.length > 0) {
             let cont = 0;
             dados.forEach(habit => {
                 return habit.done === true ? cont++ : null
@@ -61,7 +61,7 @@ export default function Menu(props) {
                 <div className="progressbar">
                     <p>Hoje</p>
                     <CircularProgressbar
-                        value={progresso}
+                        value={progress}
                         maxValue={1}
                         background
                         backgroundPadding={6}

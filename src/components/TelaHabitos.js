@@ -91,7 +91,7 @@ const Div = styled.div`
     margin-top: 70px;
     background-color: #F2F2F2;
     font-family: 'Lexend Deca';
-    padding: 22px 18px 50px 18px;
+    padding: 22px 18px 230px 18px;
     height: 100vh;
 
     header {

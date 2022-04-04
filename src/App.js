@@ -10,29 +10,34 @@ import NameContext from "./contexts/NameContext";
 import UserImage from "./contexts/UserImageContext";
 import TokenContext from "./contexts/TokenContext";
 import TodayHabitsContext from "./contexts/TodayHabitsContext";
+import ProgressContext from "./contexts/ProgressContext";
 
 export default function App() {
     const [name, setName] = useState("");
     const [userImage, setUserImage] = useState("");
     const [token, setToken] = useState("");
     const [todayHabits, setTodayHabits] = useState(null);
+    const [progress, setProgress] = useState(0);
 
     return (
         <TokenContext.Provider value={{ token, setToken }}>
             <NameContext.Provider value={{ name, setName }}>
                 <UserImage.Provider value={{ userImage, setUserImage }}>
                     <TodayHabitsContext.Provider value={{ todayHabits, setTodayHabits }}>
-                        <BrowserRouter>
-                            <Routes>
-                                <Route path="/" element={<TelaLogin />}></Route>
-                                <Route path="/cadastro" element={<TelaCadastro />}></Route>
-                                <Route path="/habitos" element={<TelaHabitos />}></Route>
-                                <Route path="/hoje" element={<TelaHoje />}></Route>
-                                <Route path="/historico" element={<TelaHistorico />}></Route>
-                            </Routes>
-                        </BrowserRouter>
-                    </TodayHabitsContext.Provider>
+                        <ProgressContext.Provider value={{ progress, setProgress }}>
 
+                            <BrowserRouter>
+                                <Routes>
+                                    <Route path="/" element={<TelaLogin />}></Route>
+                                    <Route path="/cadastro" element={<TelaCadastro />}></Route>
+                                    <Route path="/habitos" element={<TelaHabitos />}></Route>
+                                    <Route path="/hoje" element={<TelaHoje />}></Route>
+                                    <Route path="/historico" element={<TelaHistorico />}></Route>
+                                </Routes>
+                            </BrowserRouter>
+
+                        </ProgressContext.Provider>
+                    </TodayHabitsContext.Provider>
                 </UserImage.Provider>
             </NameContext.Provider>
         </TokenContext.Provider>
