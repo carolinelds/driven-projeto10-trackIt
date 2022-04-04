@@ -88,7 +88,7 @@ const Div = styled.div`
     bottom: 0px;
     left: 0px;
     height: 70px;
-    width: 375px;
+    width: 100%;
     background: #FFFFFF;
     display: flex;
     justify-content: space-between;

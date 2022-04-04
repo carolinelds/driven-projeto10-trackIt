@@ -1,10 +1,8 @@
 import styled from "styled-components";
-//import DeleteButton from "./../assets/images/delete-button.svg";
+import DeleteButton from "./../assets/images/delete-button.svg";
 import { useContext } from "react";
-//import axios from "axios";
+import axios from "axios";
 import TokenContext from "../contexts/TokenContext";
-//import { useState } from "react";
-import BotaoApagar from "./BotaoApagar";
 
 export default function Habito(props) {
 
@@ -21,6 +19,17 @@ export default function Habito(props) {
         }
     }
 
+    function apagarHabito(id, name) {
+
+        let queroApagar = window.confirm(`O hábito '${name}' será apagado. Confirma?`);
+
+        if (queroApagar) {
+            const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
+            promise.then(() => requisicaoAxios());
+            promise.catch(err => console.log(err.response.status));
+        }
+    }
+
     return (
         <Div>
             <p>{name}</p>
@@ -33,9 +42,9 @@ export default function Habito(props) {
                 <p className={definirSelecionado(5)}>S</p>
                 <p className={definirSelecionado(6)}>S</p>
             </div>
-            <div className="botao-apagar">
-                <BotaoApagar id={id} name={name} requisicaoAxios={requisicaoAxios}/>
-            </div>
+            <button onClick={() => apagarHabito(id, name)} className="botao-apagar">
+                <img src={DeleteButton} alt="Botão: aperte para apagar esse hábito" />
+            </button>
         </Div>
     );
 }
@@ -78,10 +87,18 @@ const Div = styled.div`
     }
 
     .botao-apagar {
+        height: 20px;
+        width: 17.333px;
+        border-style: none;
         background-color: inherit;
         position: absolute;
         top: 11px;
         right: 17px;
+    }
+
+    .botao-apagar img {
+        height: 20px;
+        width: auto;
     }
 
     .botao-apagar:hover {

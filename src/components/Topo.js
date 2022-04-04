@@ -24,6 +24,7 @@ const Div = styled.div`
     
     box-sizing: border-box;
     background-color: #126BA5;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
     height: 70px;
     width: 100%;
     padding-left: 18px;
