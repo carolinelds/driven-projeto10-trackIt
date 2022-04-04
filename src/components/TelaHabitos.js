@@ -11,6 +11,7 @@ export default function TelaHabitos() {
 
     const [habitos, setHabitos] = useState(null);
     const [criarHabito, setCriarHabito] = useState(false);
+    const [atualizaHabitosHoje, setAtualizaHabitosHoje] = useState(false);
 
     const { token } = useContext(TokenContext);
     
@@ -27,6 +28,7 @@ export default function TelaHabitos() {
             const { data } = response;
             console.log(data);
             setHabitos(data);
+            setAtualizaHabitosHoje(!atualizaHabitosHoje);
         });
 
         promise.catch(err => console.log(err.response.status));
@@ -59,7 +61,7 @@ export default function TelaHabitos() {
                 }
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
             </Div>
-            <Menu />
+            <Menu atualizaHabitosHoje={atualizaHabitosHoje}/>
         </>
     ) : ( 
         habitos !== null ? 
@@ -80,7 +82,7 @@ export default function TelaHabitos() {
                     })
                 }
             </Div>
-            <Menu />
+            <Menu atualizaHabitosHoje={atualizaHabitosHoje}/>
         </> : <p>Carregando...</p>
     )
 }

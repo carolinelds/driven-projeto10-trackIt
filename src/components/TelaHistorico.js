@@ -15,5 +15,5 @@ export default function TelaHistorico() {
 }
 
 const Div = styled.div`
-
+    margin-top: 70px;
 `;

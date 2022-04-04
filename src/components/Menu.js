@@ -7,7 +7,9 @@ import TokenContext from "./../contexts/TokenContext";
 import axios from "axios";
 import TodayHabitsContext from "./../contexts/TodayHabitsContext";
 
-export default function Menu() {
+export default function Menu(props) {
+
+    let {atualizaHabitosHoje} = props;
 
     const { setTodayHabits } = useContext(TodayHabitsContext);
     const { token } = useContext(TokenContext);
@@ -33,7 +35,7 @@ export default function Menu() {
 
     useEffect(() => {
         requisicaoAxiosHoje();
-    }, []);
+    }, [atualizaHabitosHoje]);
 
 
     function calcularProgresso(dados) {
