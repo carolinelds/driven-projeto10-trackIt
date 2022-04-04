@@ -22,12 +22,18 @@ export default function Topo() {
 
 const Div = styled.div`
     
+    box-sizing: border-box;
     background-color: #126BA5;
     height: 70px;
+    width: 100%;
     padding-left: 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 1;
 
     .trackit-reduced-logo{
         color: white;

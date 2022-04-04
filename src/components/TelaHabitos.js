@@ -86,7 +86,7 @@ export default function TelaHabitos() {
 }
 
 const Div = styled.div`
-
+    margin-top: 70px;
     background-color: #F2F2F2;
     font-family: 'Lexend Deca';
     padding: 22px 18px 50px 18px;
