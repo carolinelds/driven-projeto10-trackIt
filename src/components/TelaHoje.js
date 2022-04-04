@@ -10,8 +10,8 @@ import * as localizedFormat from 'dayjs/plugin/localizedFormat';
 
 export default function TelaHoje() {
 
-    const { todayHabits, setTodayHabits } = useContext(TodayHabitsContext);
-    const { progress, setProgress } = useContext(ProgressContext);
+    const { todayHabits } = useContext(TodayHabitsContext);
+    const { progress } = useContext(ProgressContext);
     const [atualizaHabitosHoje, setAtualizaHabitosHoje] = useState(false);
 
     const dayjs = require('dayjs');

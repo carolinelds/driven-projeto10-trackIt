@@ -20,7 +20,7 @@ export default function HabitoHoje(props){
     function marcarAxios(){
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,null,config);
         promise.then(response => {
-            const { data } = response;
+            //const { data } = response;
             setAtualizaHabitosHoje(!atualizaHabitosHoje);
         });
         promise.catch(err => console.log(err.response.status));
@@ -29,7 +29,7 @@ export default function HabitoHoje(props){
     function desmarcarAxios(){
         const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,null,config);
         promise.then(response => {
-            const { data } = response;
+            //const { data } = response;
             setAtualizaHabitosHoje(!atualizaHabitosHoje);
         });
         promise.catch(err => console.log(err.response.status));

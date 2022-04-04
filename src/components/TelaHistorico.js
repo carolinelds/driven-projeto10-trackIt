@@ -31,7 +31,6 @@ export default function TelaHistorico() {
             return txt
         })
     }\n\n Progresso hoje: ${(progress * 100).toFixed(0)}%`;
-    console.log(text);
     text = window.encodeURIComponent(text);
 
     function enviarWhats(){

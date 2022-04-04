@@ -11,6 +11,7 @@ export default function TelaCadastro() {
     const [nome, setNome] = useState("");
     const [foto, setFoto] = useState("");
     const [carregando, setCarregando] = useState(false);
+    const [imagemPadraoChecked, setImagemPadraoChecked] = useState(false);
 
     function fazerCadastro(event) {
         event.preventDefault();
@@ -41,6 +42,19 @@ export default function TelaCadastro() {
         navigate("/");
     }
 
+    function definirImagemPadrao(){
+
+        if (!imagemPadraoChecked)
+        {
+            setFoto("https://www.ziu.net.br/semfoto.jpg")
+            setImagemPadraoChecked(true);
+        } else {
+            setFoto("");
+            setImagemPadraoChecked(false);
+        }
+        
+    }
+
     return !carregando ? (
         <Div>
             <img src={TrackItLogo} alt="Logo do TrackIt" />
@@ -49,6 +63,12 @@ export default function TelaCadastro() {
                 <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="senha" required />
                 <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="nome" required />
                 <input type="url" value={foto} onChange={e => setFoto(e.target.value)} placeholder="foto (url)" required />
+
+                <div className="select-auto-image">
+                    <input className="checkbox" type="checkbox" id="userAvatar" name="usarAvatar" value="image" onClick={definirImagemPadrao}/>
+                    <label htmlFor="userAvatar">Usar imagem padrão</label>
+                </div>
+
                 <button type="submit">Cadastrar</button>
             </form>
             <Link to="/">
@@ -63,6 +83,12 @@ export default function TelaCadastro() {
                 <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="senha" disabled />
                 <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="nome" disabled />
                 <input type="url" value={foto} onChange={e => setFoto(e.target.value)} placeholder="foto (url)" disabled />
+
+                <div className="select-auto-image">
+                    <input className="checkbox" type="checkbox" id="userAvatar" name="usarAvatar" value="image" onClick={definirImagemPadrao} disabled/>
+                    <label htmlFor="userAvatar">Usar imagem padrão</label>
+                </div>
+
                 <button type="submit" disabled>
                     <ThreeDots color="#FFFFFF" height={50} width={50} />
                 </button>
@@ -107,7 +133,7 @@ const Div = styled.div`
         padding-left: 11px;
         overflow-x: hidden;
         font-weight: 400;
-        font-size: 19.976px;
+        font-size: 20px;
         line-height: 25px;
     }
 
@@ -131,10 +157,38 @@ const Div = styled.div`
 
     p {
         font-weight: 400;
-        font-size: 13.976px;
+        font-size: 14px;
         line-height: 17px;
         text-align: center;
         text-decoration-line: underline;
         color: #52B6FF;
+    }
+
+    .select-auto-image {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .select-auto-image label {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 25px;
+        color: #666666;;
+    }
+
+    .checkbox {
+        width: 15px;
+        height: 15px;
+        border: 1px solid #D5D5D5;
+        box-sizing: border-box;
+        border-radius: 5px;
+        margin-top: 7px;
+        margin-right: 10px;
+        padding-left: 11px;
+        overflow-x: hidden;
+        font-weight: 400;
+        font-size: 19.976px;
+        line-height: 25px;
     }
 `;
