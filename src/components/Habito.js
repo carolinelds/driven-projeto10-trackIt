@@ -1,9 +1,4 @@
 import styled from "styled-components";
-//import DeleteButton from "./../assets/images/delete-button.svg";
-import { useContext } from "react";
-//import axios from "axios";
-import TokenContext from "../contexts/TokenContext";
-//import { useState } from "react";
 import BotaoApagar from "./BotaoApagar";
 
 export default function Habito(props) {
@@ -12,13 +7,6 @@ export default function Habito(props) {
 
     function definirSelecionado(num) {
         return days.includes(num) ? "selecionado" : "nao-selecionado";
-    }
-
-    const { token } = useContext(TokenContext);
-    const config = {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
     }
 
     return (
