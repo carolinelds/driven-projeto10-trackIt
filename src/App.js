@@ -4,27 +4,34 @@ import { useState } from "react";
 import TelaLogin from "./components/TelaLogin";
 import TelaCadastro from "./components/TelaCadastro";
 import TelaHabitos from "./components/TelaHabitos";
+import TelaHoje from "./components/TelaHoje";
+import TelaHistorico from "./components/TelaHistorico";
 import NameContext from "./contexts/NameContext";
 import UserImage from "./contexts/UserImageContext";
 import TokenContext from "./contexts/TokenContext";
+import TodayHabitsContext from "./contexts/TodayHabitsContext";
 
 export default function App() {
     const [name, setName] = useState("");
     const [userImage, setUserImage] = useState("");
     const [token, setToken] = useState("");
+    const [todayHabits, setTodayHabits] = useState(null);
 
     return (
         <TokenContext.Provider value={{ token, setToken }}>
             <NameContext.Provider value={{ name, setName }}>
                 <UserImage.Provider value={{ userImage, setUserImage }}>
-
-                    <BrowserRouter>
-                        <Routes>
-                            <Route path="/" element={<TelaLogin />}></Route>
-                            <Route path="/cadastro" element={<TelaCadastro />}></Route>
-                            <Route path="/habitos" element={<TelaHabitos />}></Route>
-                        </Routes>
-                    </BrowserRouter>
+                    <TodayHabitsContext.Provider value={{ todayHabits, setTodayHabits }}>
+                        <BrowserRouter>
+                            <Routes>
+                                <Route path="/" element={<TelaLogin />}></Route>
+                                <Route path="/cadastro" element={<TelaCadastro />}></Route>
+                                <Route path="/habitos" element={<TelaHabitos />}></Route>
+                                <Route path="/hoje" element={<TelaHoje />}></Route>
+                                <Route path="/historico" element={<TelaHistorico />}></Route>
+                            </Routes>
+                        </BrowserRouter>
+                    </TodayHabitsContext.Provider>
 
                 </UserImage.Provider>
             </NameContext.Provider>

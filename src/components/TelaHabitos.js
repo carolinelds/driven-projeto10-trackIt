@@ -5,6 +5,7 @@ import TokenContext from "./../contexts/TokenContext";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
 import Habito from "./Habito";
+import Menu from "./Menu";
 
 export default function TelaHabitos() {
 
@@ -58,6 +59,7 @@ export default function TelaHabitos() {
                 }
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
             </Div>
+            <Menu />
         </>
     ) : ( 
         habitos !== null ? 
@@ -78,7 +80,8 @@ export default function TelaHabitos() {
                     })
                 }
             </Div>
-        </> : null
+            <Menu />
+        </> : <p>Carregando...</p>
     )
 }
 
