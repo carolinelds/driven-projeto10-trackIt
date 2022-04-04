@@ -1,25 +1,61 @@
 import styled from "styled-components";
 import Checkmark from "./../assets/images/checkmark.svg";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import TokenContext from "../contexts/TokenContext";
+import axios from "axios";
 
 export default function HabitoHoje(props){
-    let {id, name, done, currentSequence, highestSequence} = props;
+    let {id, name, done, currentSequence, highestSequence, atualizaHabitosHoje, setAtualizaHabitosHoje} = props;
 
     const [feito, setFeito] = useState(done);
+
+    const { token } = useContext(TokenContext);
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    function marcarAxios(){
+        const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,null,config);
+        promise.then(response => {
+            const { data } = response;
+            setAtualizaHabitosHoje(!atualizaHabitosHoje);
+        });
+        promise.catch(err => console.log(err.response.status));
+    }
+
+    function desmarcarAxios(){
+        const promise = axios.post(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,null,config);
+        promise.then(response => {
+            const { data } = response;
+            setAtualizaHabitosHoje(!atualizaHabitosHoje);
+        });
+        promise.catch(err => console.log(err.response.status));
+    }
 
     function checarHabito(param){
         if (param === false){
             setFeito(true);
+            marcarAxios();
         } else {
             setFeito(false);
+            desmarcarAxios();
         }
+    }
+
+    function checarSequencia(){
+        
+        return currentSequence !== 0 && currentSequence === highestSequence ? 
+        "recorde-atual" : "recorde-nao-atual"
     }
 
     return (
         <Div>
             <div className="infos">
                 <h2>{name}</h2>
-                <p>Sequência atual: {currentSequence} dias</p>
+                <p>Sequência atual: <span className={checarSequencia()}>{currentSequence} dias</span></p>
                 <p>Seu recorde: {highestSequence} dias</p>
             </div>
             <button onClick={() => checarHabito(feito)} className={feito ? "feito" : "nao-feito"}>
@@ -73,5 +109,13 @@ const Div = styled.div`
 
     .nao-feito {
         background: #EBEBEB;
+    }
+
+    .recorde-atual{
+        color: #8FC549;
+    } 
+    
+    .recorde-nao-atual {
+        color: #666666;
     }
 `;

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Topo from "./Topo";
 import Menu from "./Menu";
 import HabitoHoje from "./HabitoHoje";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import TodayHabitsContext from "../contexts/TodayHabitsContext";
 import ProgressContext from "../contexts/ProgressContext";
 import "dayjs/locale/pt";
@@ -12,6 +12,7 @@ export default function TelaHoje() {
 
     const { todayHabits, setTodayHabits } = useContext(TodayHabitsContext);
     const { progress, setProgress } = useContext(ProgressContext);
+    const [atualizaHabitosHoje, setAtualizaHabitosHoje] = useState(false);
 
     const dayjs = require('dayjs');
     dayjs.extend(localizedFormat);
@@ -28,7 +29,7 @@ export default function TelaHoje() {
         return progress === 0 ? (
             <p className="sem-progresso">Nenhum hábito concluído ainda</p>
         ) : (
-            <p className="com-progresso">{progress * 100}% dos hábitos concluídos</p>
+            <p className="com-progresso">{(progress * 100).toFixed(0)}% dos hábitos concluídos</p>
         )
     }
 
@@ -53,13 +54,15 @@ export default function TelaHoje() {
                                     done={done}
                                     currentSequence={currentSequence}
                                     highestSequence={highestSequence}
+                                    atualizaHabitosHoje={atualizaHabitosHoje}
+                                    setAtualizaHabitosHoje={setAtualizaHabitosHoje}
                                 />
                             );
                         })
                     }
                 </div>
             </Div>
-            <Menu />
+            <Menu atualizaHabitosHoje={atualizaHabitosHoje}/>
         </>
     );
 }
