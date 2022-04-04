@@ -62,9 +62,11 @@ export default function TelaLogin() {
 }
 
 const Div = styled.div`
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100vh;
     
     * {
         font-family: 'Lexend Deca';

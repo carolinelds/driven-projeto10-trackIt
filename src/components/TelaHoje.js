@@ -71,10 +71,10 @@ const Div = styled.div`
     
     box-sizing: border-box;
     margin-top: 70px;
-    padding: 28px 17px 230px 17px;
+    padding: 28px 17px 110px 17px;
     background-color: #F2F2F2;
     font-family: 'Lexend Deca';
-    height: 100vh;
+    height: auto;
 
     .dia-data{
         font-weight: 400;
