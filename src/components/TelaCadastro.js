@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import TrackItLogo from "./../assets/images/trackit-logo.svg";
+import { ThreeDots } from "react-loader-spinner";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -9,9 +10,11 @@ export default function TelaCadastro() {
     const [senha, setSenha] = useState("");
     const [nome, setNome] = useState("");
     const [foto, setFoto] = useState("");
+    const [carregando, setCarregando] = useState(false);
 
     function fazerCadastro(event) {
         event.preventDefault();
+        setCarregando(true);
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up",
             {
@@ -25,16 +28,20 @@ export default function TelaCadastro() {
             console.log(data);
             mudarPagina();
         });
-        promise.catch(err => console.log(err.status));
+        promise.catch(err => {
+            window.alert("Erro no cadastro, tente novamente.");
+            console.log(err.status);
+            setCarregando(false);
+        });
     }
 
     let navigate = useNavigate();
 
-    function mudarPagina(){
+    function mudarPagina() {
         navigate("/");
     }
 
-    return (
+    return !carregando ? (
         <Div>
             <img src={TrackItLogo} alt="Logo do TrackIt" />
             <form onSubmit={fazerCadastro}>
@@ -48,7 +55,23 @@ export default function TelaCadastro() {
                 <p>Já tem uma conta? Faça login!</p>
             </Link>
         </Div>
-    );
+    ) : (
+        <Div>
+            <img src={TrackItLogo} alt="Logo do TrackIt" />
+            <form onSubmit={fazerCadastro}>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" disabled />
+                <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="senha" disabled />
+                <input type="text" value={nome} onChange={e => setNome(e.target.value)} placeholder="nome" disabled />
+                <input type="url" value={foto} onChange={e => setFoto(e.target.value)} placeholder="foto (url)" disabled />
+                <button type="submit" disabled>
+                    <ThreeDots color="#FFFFFF" height={50} width={50} />
+                </button>
+            </form>
+            <Link to="/">
+                <p>Já tem uma conta? Faça login!</p>
+            </Link>
+        </Div>
+    )
 }
 
 const Div = styled.div`

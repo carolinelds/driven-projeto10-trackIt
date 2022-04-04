@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
 import TrackItLogo from "./../assets/images/trackit-logo.svg";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
@@ -16,9 +17,11 @@ export default function TelaLogin() {
 
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [carregando, setCarregando] = useState(false);
 
     function fazerLogin(event) {
         event.preventDefault();
+        setCarregando(true);
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", {
             email: email,
@@ -33,10 +36,9 @@ export default function TelaLogin() {
             mudarPagina();
         });
         promise.catch(err => {
+            window.alert("Usuário ou senha inválido(s), tente novamente.");
             console.log(err.status)
-            setEmail("");
-            setSenha("");
-            alert("Usuário ou senha inválidos.");
+            setCarregando(false);
         });
     }
 
@@ -46,7 +48,7 @@ export default function TelaLogin() {
         navigate("/habitos");
     }
 
-    return (
+    return !carregando ? (
         <Div>
             <img src={TrackItLogo} alt="Logo do TrackIt" />
             <form onSubmit={fazerLogin}>
@@ -58,7 +60,21 @@ export default function TelaLogin() {
                 <p>Não tem uma conta? Cadastre-se!</p>
             </Link>
         </Div>
-    );
+    ) : (
+        <Div>
+            <img src={TrackItLogo} alt="Logo do TrackIt" />
+            <form onSubmit={fazerLogin}>
+                <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="email" disabled />
+                <input type="password" value={senha} onChange={e => setSenha(e.target.value)} placeholder="senha" disabled />
+                <button type="submit" className="carregando" disabled>
+                    <ThreeDots color="#FFFFFF" height={50} width={50} />
+                </button>
+            </form>
+            <Link to="/cadastro">
+                <p>Não tem uma conta? Cadastre-se!</p>
+            </Link>
+        </Div>
+    )
 }
 
 const Div = styled.div`
@@ -111,6 +127,9 @@ const Div = styled.div`
         font-size: 20.976px;
         line-height: 26px;
         margin-bottom: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     p {
@@ -120,5 +139,9 @@ const Div = styled.div`
         text-align: center;
         text-decoration-line: underline;
         color: #52B6FF;
+    }
+
+    .carregando {
+        opacity: 0.5;
     }
 `;
