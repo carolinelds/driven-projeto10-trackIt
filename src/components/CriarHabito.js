@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useState, useContext } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import axios from "axios";
 import TokenContext from "./../contexts/TokenContext";
 
@@ -9,6 +10,7 @@ export default function CriarHabito(props) {
 
     const [nomeHabito, setNomeHabito] = useState("");
     const [dias, setDias] = useState([]);
+    const [carregando, setCarregando] = useState(false);
 
     const { token } = useContext(TokenContext);
     const config = {
@@ -17,10 +19,10 @@ export default function CriarHabito(props) {
         }
     }
 
-    function definirDias(num){
-        if (dias.includes(num)){
+    function definirDias(num) {
+        if (dias.includes(num)) {
             let pos = dias.indexOf(num);
-            dias.splice(pos,1);
+            dias.splice(pos, 1);
             dias.sort();
             setDias(dias);
         } else {
@@ -32,23 +34,29 @@ export default function CriarHabito(props) {
 
     function salvarHabito(event) {
         event.preventDefault();
+        setCarregando(true);
 
-        const body  = {
+        const body = {
             name: nomeHabito,
             days: dias
         }
 
         const promise = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", body, config);
         promise.then(response => {
-            const {data} = response;
+            const { data } = response;
             console.log(data);
             setCriarHabito(false);
+            setCarregando(false);
             requisicaoAxios();
         });
-        promise.catch(err => console.log(err.response.status));
+        promise.catch(err => {
+            window.alert("Erro na criação do hábito, tente novamente.");
+            console.log(err.status);
+            setCarregando(false);
+        });
     }
 
-    return (
+    return !carregando ? (
         <Div>
             <form onSubmit={salvarHabito}>
                 <input type="text" value={nomeHabito} onChange={e => setNomeHabito(e.target.value)} placeholder="nome do hábito" required />
@@ -80,7 +88,41 @@ export default function CriarHabito(props) {
                 </div>
             </form>
         </Div>
-    );
+    ) : (
+        <Div>
+            <form onSubmit={salvarHabito}>
+                <input type="text" value={nomeHabito} onChange={e => setNomeHabito(e.target.value)} placeholder="nome do hábito" disabled />
+                <div className="dias">
+                    <input type="checkbox" id="dia0" name="dia0" value="Domingo" disabled />
+                    <label htmlFor="dia0" onClick={() => definirDias(0)}>D</label>
+
+                    <input type="checkbox" id="dia1" name="dia1" value="Segunda" disabled />
+                    <label htmlFor="dia1" onClick={() => definirDias(1)}>S</label>
+
+                    <input type="checkbox" id="dia2" name="dia2" value="Terça" disabled />
+                    <label htmlFor="dia2" onClick={() => definirDias(2)}>T</label>
+
+                    <input type="checkbox" id="dia3" name="dia3" value="Quarta" disabled />
+                    <label htmlFor="dia3" onClick={() => definirDias(3)}>Q</label>
+
+                    <input type="checkbox" id="dia4" name="dia4" value="Quinta" disabled />
+                    <label htmlFor="dia4" onClick={() => definirDias(4)}>Q</label>
+
+                    <input type="checkbox" id="dia5" name="dia5" value="Sexta" disabled />
+                    <label htmlFor="dia5" onClick={() => definirDias(5)}>S</label>
+
+                    <input type="checkbox" id="dia6" name="dia6" value="Sábado" disabled />
+                    <label htmlFor="dia6" onClick={() => definirDias(6)}>S</label>
+                </div>
+                <div className="buttons">
+                    <button onClick={() => setCriarHabito(false)} disabled>Cancelar</button>
+                    <button type="submit" disabled>
+                        <ThreeDots color="#FFFFFF" height={50} width={50} />
+                    </button>
+                </div>
+            </form>
+        </Div>
+    )
 }
 
 const Div = styled.div`
@@ -160,5 +202,8 @@ const Div = styled.div`
         font-size: 16px;
         line-height: 20px;
         text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 `;

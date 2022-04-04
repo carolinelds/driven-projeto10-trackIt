@@ -1,6 +1,7 @@
 import Topo from "./Topo";
 import styled from "styled-components";
 import { useContext, useState, useEffect } from "react";
+import { ThreeDots } from "react-loader-spinner";
 import TokenContext from "./../contexts/TokenContext";
 import axios from "axios";
 import CriarHabito from "./CriarHabito";
@@ -14,14 +15,14 @@ export default function TelaHabitos() {
     const [atualizaHabitosHoje, setAtualizaHabitosHoje] = useState(false);
 
     const { token } = useContext(TokenContext);
-    
+
     const config = {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }
-    
-    function requisicaoAxios(){
+
+    function requisicaoAxios() {
         const promise = axios.get("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits", config);
 
         promise.then(response => {
@@ -35,12 +36,12 @@ export default function TelaHabitos() {
     }
 
     useEffect(() => {
-        requisicaoAxios();        
+        requisicaoAxios();
     }, []);
 
     function renderizarCriarHabito() {
         return criarHabito ? (
-            <CriarHabito 
+            <CriarHabito
                 setCriarHabito={setCriarHabito}
                 requisicaoAxios={requisicaoAxios}
             />
@@ -61,29 +62,35 @@ export default function TelaHabitos() {
                 }
                 <p>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
             </Div>
-            <Menu atualizaHabitosHoje={atualizaHabitosHoje}/>
+            <Menu atualizaHabitosHoje={atualizaHabitosHoje} />
         </>
-    ) : ( 
-        habitos !== null ? 
-        <>
-            <Topo />
-            <Div>
-                <header>
-                    <h1>Meus hábitos</h1>
-                    <button onClick={() => setCriarHabito(true)}>+</button>
-                </header>
-                {
-                    renderizarCriarHabito()
-                }
-                {
-                    habitos.map(habito => {
-                        const {id, name, days} = habito;
-                        return <Habito key={id} id={id} name={name} days={days} requisicaoAxios={requisicaoAxios}/>
-                    })
-                }
-            </Div>
-            <Menu atualizaHabitosHoje={atualizaHabitosHoje}/>
-        </> : <p>Carregando...</p>
+    ) : (
+        habitos !== null ?
+            <>
+                <Topo />
+                <Div>
+                    <header>
+                        <h1>Meus hábitos</h1>
+                        <button onClick={() => setCriarHabito(true)}>+</button>
+                    </header>
+                    {
+                        renderizarCriarHabito()
+                    }
+                    {
+                        habitos.map(habito => {
+                            const { id, name, days } = habito;
+                            return <Habito key={id} id={id} name={name} days={days} requisicaoAxios={requisicaoAxios} />
+                        })
+                    }
+                </Div>
+                <Menu atualizaHabitosHoje={atualizaHabitosHoje} />
+            </> : (
+                <Div>
+                    <div className="tela-carregando">
+                        <ThreeDots color="#126BA5" height={50} width={50} />
+                    </div>
+                </Div>
+            )
     )
 }
 
@@ -125,6 +132,12 @@ const Div = styled.div`
         font-weight: 400;
         font-size: 18px;
         line-height: 22px;
+    }
+
+    .tela-carregando {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     
