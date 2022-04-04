@@ -19,10 +19,15 @@ export default function Habito(props) {
         }
     }
 
-    function apagarHabito(id) {
-        const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
-        promise.then(() => requisicaoAxios());
-        promise.catch(err => console.log(err.response.status));
+    function apagarHabito(id, name) {
+
+        let queroApagar = window.confirm(`O hábito '${name}' será apagado. Confirma?`);
+
+        if (queroApagar) {
+            const promise = axios.delete(`https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`, config);
+            promise.then(() => requisicaoAxios());
+            promise.catch(err => console.log(err.response.status));
+        }
     }
 
     return (
@@ -37,7 +42,7 @@ export default function Habito(props) {
                 <p className={definirSelecionado(5)}>S</p>
                 <p className={definirSelecionado(6)}>S</p>
             </div>
-            <button onClick={() => apagarHabito(id)} className="botao-apagar">
+            <button onClick={() => apagarHabito(id, name)} className="botao-apagar">
                 <img src={DeleteButton} alt="Botão: aperte para apagar esse hábito" />
             </button>
         </Div>
